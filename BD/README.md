@@ -1,4 +1,4 @@
-![DER Conceitual](./Captura de tela 2026-03-25 171812.png)
+![DER Conceitual](./der-conceitual.png)
 
 Entidades:
 Jogo: Cadastro de games com status e faixa etária.
