@@ -1,0 +1,55 @@
+algoritmo "ExcluirJogos"
+
+var
+   atlJogo: inteiro
+   resposta: caractere
+
+   excNome: caractere
+   excDescricao: caractere
+   excTema: caractere
+   excFaixaEtaria: caractere
+   excStatus: caractere
+
+   idEncontrado: logico
+
+inicio
+
+   escreva("Digite o ID do jogo a ser excluído: ")
+   leia(atlJogo)
+
+   // Simulação: verificar se ID existe no banco de dados
+   idEncontrado <- buscarJogoPorID(atlJogo)
+
+   se (idEncontrado = falso) entao
+      escreva("ID não encontrado")
+
+   senao
+      // Simulação: carregar dados do banco
+      excNome <- nome
+      excDescricao <- descricao
+      excTema <- tema
+      excFaixaEtaria <- faixaEtaria
+      excStatus <- status
+
+      escreva("Dados do jogo encontrado:")
+      escreva("ID: ", atlJogo)
+      escreva("Nome: ", excNome)
+      escreva("Descrição: ", excDescricao)
+      escreva("Tema: ", excTema)
+      escreva("Faixa Etária: ", excFaixaEtaria)
+      escreva("Status: ", excStatus)
+
+      escreva("Confirma exclusão? (s/n): ")
+      leia(resposta)
+
+      se (resposta <> 'n') entao
+         // Simulação: excluir do banco
+         excluirJogoSQL(atlJogo)
+         escreva("Jogo excluído com sucesso!")
+      senao
+         escreva("Operação cancelada.")
+      fimse
+
+   fimse
+
+fimalgoritmo
