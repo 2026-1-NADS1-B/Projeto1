@@ -1,0 +1,143 @@
+algoritmo "CRUDJogos"
+//   Este projeto serve como uma demonstração de como seria o cadastro de informações
+// em uma interface de terminal. Um produto final neste formato exigiria que os dados
+// armazenados na matriz fossem enviados para um banco de dados. Uma vez que a aplicação 
+// final será feita via WinForms e permitirá integração com um banco de dados via SQLite,
+// este código não será parte do projeto final.
+  
+var
+  // Matriz com 50 linhas e 5 colunas.
+  // Colunas: 1=ID, 2=Nome, 3=Descricao, 4=Tema, 5=Faixa Etaria
+  jogos: vetor[1..50, 1..5] de caracter
+  opcao, i, idBusca, id_atual: inteiro
+  encontrou: logico
+  nomeNovo, descNovo, temaNovo, faixaNovo: caracter
+
+inicio
+  id_atual <- 1
+
+  repita
+    escreval("===============")
+    escreval("Cadastra Jogos")
+    escreval("===============")
+    escreval("1. Cadastrar Jogo")
+    escreval("2. Listar Jogos")
+    escreval("3. Editar Jogo")
+    escreval("4. Excluir Jogo")
+    escreval("5. Sair")
+    escreva("Escolha uma opcao: ")
+    leia(opcao)
+
+    limpatela
+
+    escolha opcao
+      caso 1
+        escreval("--- CADASTRAR JOGO ---")
+        se id_atual > 50 entao
+          escreval("Limite de jogos atingido!")
+        senao
+          jogos[id_atual, 1] <- numpcarac(id_atual) //Conversão do valor da variável de numero para texto.
+                                                    //O id é salvo como texto na matriz, porém é gerado como
+          escreva("Nome do jogo: ")                 //número no autoincremento.
+          leia(nomeNovo)
+          jogos[id_atual, 2] <- nomeNovo
+
+          escreva("Descricao: ")
+          leia(descNovo)
+          jogos[id_atual, 3] <- descNovo
+
+          escreva("Tema (Ex: Educativo, Aventura): ")
+          leia(temaNovo)
+          jogos[id_atual, 4] <- temaNovo
+
+          escreva("Faixa Etaria (Ex: Livre, +12): ")
+          leia(faixaNovo)
+          jogos[id_atual, 5] <- faixaNovo
+
+          escreval("Jogo cadastrado com sucesso! ID gerado: ", id_atual)
+          id_atual <- id_atual + 1
+        fimse
+        escreval("")
+
+      caso 2
+        escreval("--- LISTA DE JOGOS ---")
+        encontrou <- falso
+        para i de 1 ate id_atual - 1 faca
+          se jogos[i, 1] <> "" entao    // Verifica se a linha não foi deletada (ID = "")
+            escreval("ID: ", jogos[i, 1], " | Nome: ", jogos[i, 2], " | Tema: ", jogos[i, 4], " | Faixa: ", jogos[i, 5])
+            escreval("Descrição: ", jogos[i, 3], ". ")
+            encontrou <- verdadeiro
+          fimse
+        fimpara
+
+        se encontrou = falso entao
+          escreval("Nenhum jogo cadastrado.")
+        fimse
+        escreval("")
+
+      caso 3
+        escreval("--- EDITAR JOGO ---")
+        escreva("Digite o ID do jogo que deseja editar: ")
+        leia(idBusca)
+        encontrou <- falso
+
+        para i de 1 ate id_atual - 1 faca
+          se (jogos[i, 1] <> "") e (caracpnum(jogos[i, 1]) = idBusca) entao // Converte o texto da matriz de volta
+            escreval("Editando o jogo: ", jogos[i, 2])                     // para número para comparar com a busca
+
+            escreva("Novo Nome: ")
+            leia(nomeNovo)
+            jogos[i, 2] <- nomeNovo
+
+            escreva("Nova Descricao: ")
+            leia(descNovo)
+            jogos[i, 3] <- descNovo
+
+            escreva("Novo Tema: ")
+            leia(temaNovo)
+            jogos[i, 4] <- temaNovo
+
+            escreva("Nova Faixa Etaria: ")
+            leia(faixaNovo)
+            jogos[i, 5] <- faixaNovo
+
+            escreval("Jogo atualizado com sucesso!")
+            encontrou <- verdadeiro
+            interrompa
+          fimse
+        fimpara
+
+        se encontrou = falso entao
+          escreval("Jogo nao encontrado.")
+        fimse
+        escreval("")
+
+      caso 4
+        escreval("--- EXCLUIR JOGO ---")                    //Aqui é feito um SoftDelete.
+        escreva("Digite o ID do jogo que deseja remover: ") //O ID é excluido da primeira coluna, portanto para de ser listado,
+        leia(idBusca)                                       //porém a linha continua existindo, assim como as outras informações.
+        encontrou <- falso
+
+        para i de 1 ate id_atual - 1 faca
+          se (jogos[i, 1] <> "") e (caracpnum(jogos[i, 1]) = idBusca) entao
+            jogos[i, 1] <- ""
+            escreval("Jogo excluido com sucesso da plataforma!")
+            encontrou <- verdadeiro
+            interrompa
+          fimse
+        fimpara
+
+        se encontrou = falso entao
+          escreval("Jogo nao encontrado.")
+        fimse
+        escreval("")
+
+      caso 5
+        escreval("Encerrando o sistema...")
+
+      outrocaso
+        escreval("Opcao invalida. Tente novamente.")
+    fimescolha
+
+  ate opcao = 5
+fimalgoritmo
